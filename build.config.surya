@@ -1,0 +1,33 @@
+# Build Flags
+ARCH=arm64
+CC=clang
+DEPMOD=depmod
+LLVM=1
+LLVM_IAS=1
+DTC=dtc
+
+# Compiler
+BUILDTOOLS_PREBUILT_BIN=build/build-tools/path/linux-x86
+CROSS_COMPILE=aarch64-elf-
+CROSS_COMPILE_ARM32=arm-eabi-
+LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=prebuilts/gcc/linux-x86/aarch64/aarch64-elf/bin
+LINUX_GCC_CROSS_COMPILE_ARM32_PREBUILTS_BIN=prebuilts/gcc/linux-x86/arm/arm-eabi/bin
+
+# Define Defconfig
+DEFCONFIG=surya_defconfig
+KERNEL_DIR=kernel/surya
+
+# Artifacts to be copied over for the prebuilt repo.
+FILES="
+arch/arm64/boot/Image
+arch/arm64/boot/Image.gz
+arch/arm64/boot/dtbo.img
+arch/arm64/boot/dtb.img
+vmlinux
+"
+
+# Extras
+STOP_SHIP_TRACEPRINTK=1
+IN_KERNEL_MODULES=1
+DO_NOT_STRIP_MODULES=1
+SKIP_MRPROPER=1
