@@ -5636,11 +5636,14 @@ static int dummy_prologue(struct bpf_insn *insn_buf, bool direct_write,
 	return bpf_unclone_prologue(insn_buf, direct_write, prog, SK_DROP);
 }
 
-const struct bpf_verifier_ops dummy_prog_ops = {
+const struct bpf_verifier_ops dummy_verifier_ops = {
 	.get_func_proto		= dummy_func_proto,
 	.is_valid_access	= dummy_is_valid_access,
 	.convert_ctx_access	= bpf_convert_ctx_access,
 	.gen_prologue		= dummy_prologue,
+};
+
+const struct bpf_prog_ops dummy_prog_ops = {
 };
 #endif
 
