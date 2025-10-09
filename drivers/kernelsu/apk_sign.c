@@ -3,6 +3,7 @@
 #include <linux/gfp.h>
 #include <linux/kernel.h>
 #include <linux/slab.h>
+#include <linux/string.h>
 #include <linux/version.h>
 #ifdef CONFIG_KSU_DEBUG
 #include <linux/moduleparam.h>
@@ -13,12 +14,13 @@
 #else
 #include <crypto/sha.h>
 #endif
-
 #include "apk_sign.h"
 #include "klog.h" // IWYU pragma: keep
 #include "kernel_compat.h"
 #include "throne_tracker.h"
 
+static unsigned int expected_manager_size = EXPECTED_MANAGER_SIZE;
+static char expected_manager_hash[SHA256_DIGEST_SIZE * 2 + 1] = EXPECTED_MANAGER_HASH;
 
 struct sdesc {
 	struct shash_desc shash;
@@ -333,5 +335,9 @@ bool is_manager_apk(char *path)
 		return false;
 	}
 
-	return check_v2_signature(path, EXPECTED_NEXT_SIZE, EXPECTED_NEXT_HASH);
+	// set debug info to print size and hash to kernel log
+	pr_info("%s: expected size: %u, expected hash: %s\n",
+		path, expected_manager_size, expected_manager_hash);
+
+	return check_v2_signature(path, expected_manager_size, expected_manager_hash);
 }
